@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <ctype.h> // for tolower function
+
+void remove_spaces_and_convert_to_lowercase(char *source, char *target) {
+    while (*source != '\0') {
+        if (*source != ' ') {
+            *target = tolower((unsigned char)*source);
+            target++;
+        }
+        source++;
+    }
+    *target = '\0';
+}
+
+int is_palindrome(char *s) {
+    int start = 0;
+    int end = 0;
+
+    while (s[end] != '\0') {
+        end++;
+    }
+    end--; // set end to the last character index
+
+    while (start < end) {
+        if (s[start] != s[end]) {
+            return 0; // Not a palindrome
+        }
+        start++;
+        end--;
+    }
+    return 1; // Is a palindrome
+}
+
+int main() {
+    char str[] = "A man a plan a canal Panama";
+    char cleaned_str[100]; // assuming the cleaned string will be less than 100 chars
+
+    remove_spaces_and_convert_to_lowercase(str, cleaned_str);
+
+    if (is_palindrome(cleaned_str)) {
+        printf("The string is a palindrome.\n");
+    } else {
+        printf("The string is not a palindrome.\n");
+    }
+
+    return 0;
+}
+
