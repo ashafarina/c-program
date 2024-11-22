@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <ctype.h> // for tolower and toupper functions
+
+void convert_case(char *s) {
+    while (*s != '\0') {
+        if (islower((unsigned char)*s)) {
+            *s = toupper((unsigned char)*s);
+        } else if (isupper((unsigned char)*s)) {
+            *s = tolower((unsigned char)*s);
+        }
+        s++;
+    }
+}
+
+int main() {
+    char str[] = "Hello, World!";
+    convert_case(str);
+    printf("Converted string: %s\n", str);
+    return 0;
+}
