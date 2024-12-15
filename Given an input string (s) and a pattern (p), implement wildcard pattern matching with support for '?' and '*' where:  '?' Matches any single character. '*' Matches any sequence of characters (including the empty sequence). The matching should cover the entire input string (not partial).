@@ -1,0 +1,12 @@
+bool isMatch(char* s, char* p) {
+  char* s_ = NULL;
+  char* p_ = NULL;
+  while (*s) {
+    if (*s == *p || '?' == *p) { s++; p++; }
+    else if (*p == '*') { s_ = s+1; p_ = p++; }
+    else if (s_ != NULL) { s = s_; p = p_; }
+    else { return false; }
+  }
+  while (*p == '*') p++;
+  return !*p;
+}
