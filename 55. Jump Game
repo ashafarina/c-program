@@ -1,0 +1,31 @@
+bool canJump(int* nums, int numsSize) {
+    /*
+    int pos = 1 , target = numsSize - 1;
+    if(numsSize == 1)
+        return true;
+    while(pos < numsSize)
+    {
+        if(nums[pos] == 0 && pos != target)
+            return false;
+        pos = pos + nums[pos];
+        if(pos == target)
+            return true;
+    }
+    return false;
+    */
+    int maxReach = 0;
+    for (int i = 0; i < numsSize; i++) {
+        // If the current index is not reachable, return false
+        // Condition if 0 occurs
+        if (i > maxReach) {
+            return false;
+        }
+        // Update the maximum reachable position
+        maxReach = maxReach > (i + nums[i]) ? maxReach : (i + nums[i]);
+        // If we can reach or exceed the last index, return true
+        if (maxReach >= numsSize - 1) {
+            return true;
+        }
+    }
+    return false;
+}
