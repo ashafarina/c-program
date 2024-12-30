@@ -1,0 +1,42 @@
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+
+void swap(int * a, int * b){
+    int temp=*a;
+    *a=*b;
+    *b=temp;
+}
+
+void permute_rec(int * nums, int numsSize, int** result, int index, int* returnSize, int* returnColumnSizes){
+    if(index==numsSize){
+        result[*returnSize]=(int *)malloc(sizeof(int)*numsSize);
+        for(int i=0;i<numsSize;i++){
+            result[*returnSize][i]=nums[i];
+        }
+        returnColumnSizes[*returnSize] = numsSize;  // Each permutation will have numsSize elements
+        (*returnSize)++;  // Increment the return size
+        return;
+    }
+
+    for(int i=index;i<numsSize;i++){
+        swap(&nums[i], &nums[index]);
+
+        permute_rec(nums, numsSize, result, index+1, returnSize, returnColumnSizes);
+
+        swap(&nums[i], &nums[index]);
+    }
+}
+
+int** permute(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {
+    int** result=(int **)malloc(sizeof(int *)*1000);
+    *returnSize=0;
+    
+    *returnColumnSizes=(int *)malloc(sizeof(int)*1000);
+
+    permute_rec(nums, numsSize, result, 0, returnSize, *returnColumnSizes);
+
+    return result;
+}
