@@ -1,0 +1,81 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+void printArr(int *arr, int size){    
+    printf("\n[");
+    for(int i=0; i<size; i++){
+        printf("%d ", arr[i]);
+    }
+    printf("]\n");
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+int findOne(int num){
+    int ones = 0;
+    while(num){
+        ones += (num&1);
+        num = num>>1;
+    }
+    return ones; 
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+int isUsed(int *use, int size){
+    int res = 1;
+    for(int i=1; i<size; i=i<<1){        
+        res &= use[i];            
+    }
+    return res;
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+int isValid(int num){
+    return !(num & (num-1));
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+/*int gray(int n) {
+    return n ^ (n >> 1);
+}
+*/
+///////////////////////////////////////////////////////////////////////////////////////////
+int  grayCodeBacktracking(int *arr, int *use, int n, int cnt){
+
+    if(cnt == n){
+        if(isValid(0 ^ arr[n-1])){                        
+            //printArr(arr, n);
+            return 1;
+        }
+        return 0; 
+    }
+
+    for (int i = 0; i < n; i++) {
+        int tmp = arr[cnt-1] ^ 1<<i;
+        if(!use[tmp]){
+            arr[cnt] = tmp;
+            use[tmp] = 1; 
+            if( grayCodeBacktracking(arr, use, n, cnt + 1) ){
+                //printf("Return...\n");
+                return 1;
+            }
+            use[tmp] = 0; 
+        }
+    }
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+int* grayCode(int n, int* returnSize) {
+
+    n=1<<n;
+    *returnSize = n;
+    int *ans = (int *)calloc(n, sizeof(int));
+    int *use = (int *)calloc(n, sizeof(int));
+    ans[0] = 0;
+    use[0] = 1;
+    if( !grayCodeBacktracking(ans, use, n, 1) ){
+        *returnSize = 0;
+        free(ans);
+        ans = NULL;
+    }
+    free(use);
+    return ans;
+
+}
